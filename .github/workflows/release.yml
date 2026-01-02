@@ -9,6 +9,29 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        include:
+          # Linux
+          - goos: linux
+            goarch: amd64
+            binary: rpt
+
+          # Windows
+          - goos: windows
+            goarch: amd64
+            binary: rpt.exe
+
+          # macOS (Intel)
+          - goos: darwin
+            goarch: amd64
+            binary: rpt_darwin_amd64
+
+          # macOS (Apple Silicon)
+          - goos: darwin
+            goarch: arm64
+            binary: rpt_darwin_arm64
+
     steps:
       - uses: actions/checkout@v4
 
@@ -20,15 +43,20 @@ jobs:
         run: go test ./...
 
       - name: Build
+        env:
+          GOOS: ${{ matrix.goos }}
+          GOARCH: ${{ matrix.goarch }}
         run: |
           go build \
             -ldflags "-X main.Version=${GITHUB_REF_NAME}" \
-            -o rpt
+            -o ${{ matrix.binary }}
 
-      - name: Make binary executable
-        run: chmod +x rpt
+      - name: Make Unix binaries executable
+        if: matrix.goos != 'windows'
+        run: chmod +x ${{ matrix.binary }}
 
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
-          files: rpt
+          files: |
+            ${{ matrix.binary }}
