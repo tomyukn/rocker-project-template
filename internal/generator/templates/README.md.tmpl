@@ -1,0 +1,18 @@
+# {{ .ProjectName }}
+
+This project provides an RStudio Server environment based on
+`rocker/rstudio:{{ .RVersion }}`.
+
+## Requirements
+
+- Docker
+- Docker Compose v2
+
+## Usage
+
+```bash
+docker compose up --build
+```
+
+Open the following URL in your browser:
+[http://localhost:8787](http://localhost:8787)

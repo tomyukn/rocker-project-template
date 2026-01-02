@@ -1,0 +1,17 @@
+services:
+  {{ .ServiceName }}:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - 8787:8787
+    environment:
+      DISABLE_AUTH: true
+      USERID: 1000
+      GROUPID: 1000
+      TZ: Asia/Tokyo
+    volumes:
+      - ./README.md:/home/rstudio/README.md
+      - ~/workspace:/home/rstudio/workspace
+      - ~/.gitconfig:/etc/gitconfig
+      - ~/.ssh:/home/rstudio/.ssh:ro

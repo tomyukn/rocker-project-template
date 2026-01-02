@@ -1,0 +1,17 @@
+{
+  "name": "rpt-dev",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "golang.go",
+        "ms-azuretools.vscode-docker"
+      ]
+    }
+  },
+  "postCreateCommand": "go mod tidy",
+  "remoteUser": "vscode"
+}
