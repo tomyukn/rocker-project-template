@@ -8,11 +8,9 @@ import (
 
 func TestInitCommand(t *testing.T) {
 	tmpDir := t.TempDir()
-	oldWd, _ := os.Getwd()
-	defer os.Chdir(oldWd)
 
 	if err := os.Chdir(tmpDir); err != nil {
-		t.Fatalf("failed to change dir: %v", err)
+		t.Fatalf("failed to change directory: %v", err)
 	}
 
 	cmd := initCmd()
@@ -27,6 +25,6 @@ func TestInitCommand(t *testing.T) {
 
 	projectPath := filepath.Join(tmpDir, "test-project")
 	if _, err := os.Stat(projectPath); err != nil {
-		t.Errorf("expected project directory to be created")
+		t.Errorf("expected project directory to be created, but it was not")
 	}
 }

@@ -13,6 +13,9 @@ rpt
 # Build directory
 /build/
 
+# golangci-lint cache
+.golangci-lint/
+
 # ===== Go workspace =====
 go.work
 go.work.sum
