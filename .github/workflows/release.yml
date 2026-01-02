@@ -16,11 +16,17 @@ jobs:
         with:
           go-version: "1.23"
 
+      - name: Test
+        run: go test ./...
+
       - name: Build
         run: |
           go build \
             -ldflags "-X main.Version=${GITHUB_REF_NAME}" \
             -o rpt
+
+      - name: Make binary executable
+        run: chmod +x rpt
 
       - name: Release
         uses: softprops/action-gh-release@v2
