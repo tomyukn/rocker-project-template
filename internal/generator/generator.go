@@ -11,9 +11,19 @@ type ProjectConfig struct {
 	ProjectName string
 	RVersion    string
 	ServiceName string
+	Force       bool
 }
 
 func Generate(cfg ProjectConfig) error {
+	if _, err := os.Stat(cfg.ProjectName); err == nil {
+		if !cfg.Force {
+			return fmt.Errorf("project directory already exists: %s", cfg.ProjectName)
+		}
+		if err := os.RemoveAll(cfg.ProjectName); err != nil {
+			return fmt.Errorf("failed to remove existing directory: %w", err)
+		}
+	}
+
 	if err := os.Mkdir(cfg.ProjectName, 0o755); err != nil {
 		return fmt.Errorf("failed to create project directory: %w", err)
 	}

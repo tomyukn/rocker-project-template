@@ -10,6 +10,7 @@ import (
 func initCmd() *cobra.Command {
 	var rVersion string
 	var serviceName string
+	var force bool
 
 	cmd := &cobra.Command{
 		Use:   "init <project-name>",
@@ -22,14 +23,11 @@ func initCmd() *cobra.Command {
 				rVersion = "latest"
 			}
 
-			if serviceName == "" {
-				serviceName = "rstudio"
-			}
-
 			cfg := generator.ProjectConfig{
 				ProjectName: projectName,
 				RVersion:    rVersion,
 				ServiceName: serviceName,
+				Force:       force,
 			}
 
 			if err := generator.Generate(cfg); err != nil {
@@ -43,6 +41,7 @@ func initCmd() *cobra.Command {
 
 	cmd.Flags().StringVar(&rVersion, "r-version", "", "R version (default: latest)")
 	cmd.Flags().StringVar(&serviceName, "name", "rstudio", "Docker Compose service name")
+	cmd.Flags().BoolVar(&force, "force", false, "Overwrite existing project directory")
 
 	return cmd
 }
